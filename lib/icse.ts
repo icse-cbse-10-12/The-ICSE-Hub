@@ -2,7 +2,7 @@
 
 export const GLOBAL_TELEGRAM_LINK = "https://t.me/ICSE_Class10_WPIV"
 
-export const STEIN_HQ_ENDPOINT = "https://api.steinhq.com/v1/storages/6a5e2eb092b1163e971ede0f/Sheet1"
+export const LECTURE_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQbiAIZ9t6XtTxBq9sYuSoKDwVLsFXLXXLWuH5tS1xqIW2fdVzHxsOZlZgSw1IVczwReCVtb8Eayi-H/pub?output=csv"
 
 // localStorage keys
 export const STORAGE_KEYS = {
