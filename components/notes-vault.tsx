@@ -70,25 +70,24 @@ export function NotesVault() {
   }
 
   function deleteNote(id: string) {
-    setNotes((prev) => {
-      const target = prev.find((n) => n.id === id)
-      if (target) {
-        setTrash((t) => [{ ...target, deletedAt: Date.now() }, ...t])
-      }
-      return prev.filter((n) => n.id !== id)
-    })
+    // Keep state updater functions pure: nested setters here can run more than once
+    // in React Strict Mode and duplicate trash entries.
+    const target = notes.find((note) => note.id === id)
+    if (!target) return
+
+    setTrash((prev) => [{ ...target, deletedAt: Date.now() }, ...prev])
+    setNotes((prev) => prev.filter((note) => note.id !== id))
   }
 
   function restoreNote(id: string) {
-    setTrash((prev) => {
-      const target = prev.find((n) => n.id === id)
-      if (target) {
-        const { deletedAt, ...note } = target
-        void deletedAt
-        setNotes((n) => [note, ...n])
-      }
-      return prev.filter((n) => n.id !== id)
-    })
+    // Update the two stores independently instead of nesting one setter inside another.
+    const target = trash.find((note) => note.id === id)
+    if (!target) return
+
+    const { deletedAt, ...note } = target
+    void deletedAt
+    setNotes((prev) => [note, ...prev])
+    setTrash((prev) => prev.filter((item) => item.id !== id))
   }
 
   function purgeNote(id: string) {
